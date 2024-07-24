@@ -7,8 +7,8 @@ GO
 CREATE TABLE [File] (
 	[ID] INT IDENTITY(1,1) CONSTRAINT pk_File PRIMARY KEY,
 	[FileName] VARCHAR(80) NOT NULL,
-	[MimeType] VARCHAR(255) NOT NULL,
-	[Key] VARCHAR(50) NOT NULL,
+	[MimeType] VARCHAR(50) NOT NULL,
+	[Key] VARCHAR(200) NOT NULL,
 	[URL] VARCHAR(300) NOT NULL,
 	[CreatedAt] DATETIME NOT NULL DEFAULT GETDATE(),
 	[UpdatedAt] DATETIME NOT NULL DEFAULT GETDATE(),
@@ -39,7 +39,8 @@ CREATE TABLE [Person] (
 	[LastName] VARCHAR(30) NOT NULL,
 	[Biography] VARCHAR(MAX) NOT NULL,
 	[BirthDate] DATETIME NOT NULL,
-	[Gender] VARCHAR(20) NOT NULL, --COULD USE A CHECK OR ANOTHER TABLE
+	[Gender] VARCHAR(15) NOT NULL CHECK ([Gender] IN ('Not known', 'Male', 'Female', 'Not applicable')),
+	[Role] VARCHAR(10) NOT NULL CHECK ([Role] IN ('Director', 'Actor')),
 	[HomeCountryID] INT NOT NULL CONSTRAINT fk_Country_Person FOREIGN KEY REFERENCES [Country](ID),
 	[ProfileID] INT CONSTRAINT fk_File_Person FOREIGN KEY REFERENCES [File](ID),--Profile Image (NEED TO CHECK)
 	[PhotoID] INT CONSTRAINT fk_File_Person FOREIGN KEY REFERENCES [File](ID),--Photo Image (NEED TO CHECK)
@@ -62,7 +63,7 @@ CREATE TABLE [Movie] (
 	[Budget] DECIMAL NOT NULL,
 	[ReleaseDate] DATETIME NOT NULL,
 	[Duration] INT NOT NULL,
-	[DirectorID] INT NOT NULL CONSTRAINT fk_Person_Movie FOREIGN KEY REFERENCES [Person](ID),--Director Table  (Not Sure if a Movie can have multiple directors)
+	[DirectorID] INT NOT NULL CONSTRAINT fk_Person_Movie FOREIGN KEY REFERENCES [Person](ID),
 	[CountryProducedID] INT NOT NULL CONSTRAINT fk_Country_Movie FOREIGN KEY REFERENCES [Country](ID),
 	[PosterID] INT CONSTRAINT fk_File_Movie FOREIGN KEY REFERENCES [File](ID),--Poster Image
 	[CreatedAt] DATETIME NOT NULL DEFAULT GETDATE(),
@@ -91,6 +92,7 @@ CREATE TABLE [FavoriteMovies] (
 	[CreatedAt] DATETIME NOT NULL DEFAULT GETDATE(),
 	[UpdatedAt] DATETIME NOT NULL DEFAULT GETDATE(),
 )
+
 CREATE TABLE [FavoriteMovies_User] (
 	[ID] INT IDENTITY(1,1) CONSTRAINT pk_FavoriteMovies_User PRIMARY KEY,
 	[UserID] INT NOT NULL CONSTRAINT fk_User_FavoriteMovies FOREIGN KEY REFERENCES [User](ID),
@@ -98,18 +100,12 @@ CREATE TABLE [FavoriteMovies_User] (
 	[CreatedAt] DATETIME NOT NULL DEFAULT GETDATE(),
 	[UpdatedAt] DATETIME NOT NULL DEFAULT GETDATE(),
 )
---CREATE TABLE [CharacterRole] ( --Evaluate if need to be a CHECK
---	[ID] INT IDENTITY(1,1) PRIMARY KEY,
---	[Name] VARCHAR(30) NOT NULL,
---	[Description] VARCHAR(MAX) NOT NULL,
---	[Role] VARCHAR(60) NOT NULL,
---)
 
 CREATE TABLE [Character] (
 	[ID] INT IDENTITY(1,1) CONSTRAINT pk_Character PRIMARY KEY,
 	[Name] VARCHAR(30) NOT NULL,
 	[Description] VARCHAR(MAX) NOT NULL,
-	[Role] VARCHAR(60) NOT NULL CHECK ([Role] IN ('leading', 'supporting', 'background')),
+	[Role] VARCHAR(10) NOT NULL CHECK ([Role] IN ('leading', 'supporting', 'background')),
 	[MovieID] INT NOT NULL CONSTRAINT fk_Movie_Character FOREIGN KEY REFERENCES [Movie](ID),
 	[ActorID] INT CONSTRAINT fk_Person_Character FOREIGN KEY REFERENCES [Person](ID),
 	[CreatedAt] DATETIME NOT NULL DEFAULT GETDATE(),
