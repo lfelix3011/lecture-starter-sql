@@ -61,9 +61,9 @@ NOTES:
 
 Favorites
     MovieID
-    Likes
+    UserID
 NOTES: 
-    I need to know wiche user set the like to the movie
+    I need to know wiche user set the movie as favorite
 
 
 

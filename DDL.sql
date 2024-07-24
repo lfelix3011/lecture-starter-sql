@@ -39,18 +39,17 @@ CREATE TABLE [Person] (
 	[LastName] VARCHAR(30) NOT NULL,
 	[Biography] VARCHAR(MAX) NOT NULL,
 	[BirthDate] DATETIME NOT NULL,
-	[Gender] VARCHAR(15) NOT NULL CHECK ([Gender] IN ('Not known', 'Male', 'Female', 'Not applicable')),
-	[Role] VARCHAR(10) NOT NULL CHECK ([Role] IN ('Director', 'Actor')),
+	[Gender] VARCHAR(14) NOT NULL CHECK ([Gender] IN ('Not known', 'Male', 'Female', 'Not applicable')),
+	[Role] VARCHAR(8) NOT NULL CHECK ([Role] IN ('Director', 'Actor')),
 	[HomeCountryID] INT NOT NULL CONSTRAINT fk_Country_Person FOREIGN KEY REFERENCES [Country](ID),
-	[ProfileID] INT CONSTRAINT fk_File_Person FOREIGN KEY REFERENCES [File](ID),--Profile Image (NEED TO CHECK)
-	[PhotoID] INT CONSTRAINT fk_File_Person FOREIGN KEY REFERENCES [File](ID),--Photo Image (NEED TO CHECK)
 	[CreatedAt] DATETIME NOT NULL DEFAULT GETDATE(),
 	[UpdatedAt] DATETIME NOT NULL DEFAULT GETDATE(),
 )
 
-CREATE TABLE [Person_Photo] ( --(NEED TO CHECK)
-	[ID] INT IDENTITY(1,1) CONSTRAINT pk_Person_Photos PRIMARY KEY,
-	[PersonID] INT NOT NULL CONSTRAINT fk_Person_Person_Photos FOREIGN KEY REFERENCES [Person](ID),
+CREATE TABLE [PersonPhoto] ( --(NEED TO CHECK)
+	[ID] INT IDENTITY(1,1) CONSTRAINT pk_PersonPhoto PRIMARY KEY,
+	[IsProfile] BIT NOT NULL DEFAULT 0,
+	[PersonID] INT NOT NULL CONSTRAINT fk_Person_PersonPhoto FOREIGN KEY REFERENCES [Person](ID),
 	[PhotoID] INT CONSTRAINT fk_File_Person FOREIGN KEY REFERENCES [File](ID),--Photo Image
 	[CreatedAt] DATETIME NOT NULL DEFAULT GETDATE(),
 	[UpdatedAt] DATETIME NOT NULL DEFAULT GETDATE(),
@@ -77,26 +76,18 @@ CREATE TABLE [Genre] (
 	[UpdatedAt] DATETIME NOT NULL DEFAULT GETDATE(),
 )
 
-CREATE TABLE [Movie_Genre] (
-	CONSTRAINT pk_Movie_Genre PRIMARY KEY ([MovieID], [GenreID]),
-	[MovieID] INT NOT NULL CONSTRAINT fk_Movie_Movie_Genre FOREIGN KEY REFERENCES [Movie](ID),
-	[GenreID] INT NOT NULL CONSTRAINT fk_Genre_Movie_Genre FOREIGN KEY REFERENCES [Genre](ID),
+CREATE TABLE [MovieGenre] (
+	CONSTRAINT pk_MovieGenre PRIMARY KEY ([MovieID], [GenreID]),
+	[MovieID] INT NOT NULL CONSTRAINT fk_Movie_MovieGenre FOREIGN KEY REFERENCES [Movie](ID),
+	[GenreID] INT NOT NULL CONSTRAINT fk_Genre_MovieGenre FOREIGN KEY REFERENCES [Genre](ID),
 	[CreatedAt] DATETIME NOT NULL DEFAULT GETDATE(),
 	[UpdatedAt] DATETIME NOT NULL DEFAULT GETDATE(),
 )
 
 CREATE TABLE [FavoriteMovies] (
-	[ID] INT IDENTITY(1,1) CONSTRAINT pk_Person_Photos PRIMARY KEY,
+	[ID] INT IDENTITY(1,1) CONSTRAINT pk_FavoriteMovies PRIMARY KEY,
 	[MovieID] INT NOT NULL CONSTRAINT fk_Movie_FavoriteMovies FOREIGN KEY REFERENCES [Movie](ID),
-	[LikeCounter] INT NOT NULL,
-	[CreatedAt] DATETIME NOT NULL DEFAULT GETDATE(),
-	[UpdatedAt] DATETIME NOT NULL DEFAULT GETDATE(),
-)
-
-CREATE TABLE [FavoriteMovies_User] (
-	[ID] INT IDENTITY(1,1) CONSTRAINT pk_FavoriteMovies_User PRIMARY KEY,
 	[UserID] INT NOT NULL CONSTRAINT fk_User_FavoriteMovies FOREIGN KEY REFERENCES [User](ID),
-	[FavoriteMovieID] INT NOT NULL CONSTRAINT fk_FavoriteMovies_FavoriteMovies_User FOREIGN KEY REFERENCES [FavoriteMovies](ID),
 	[CreatedAt] DATETIME NOT NULL DEFAULT GETDATE(),
 	[UpdatedAt] DATETIME NOT NULL DEFAULT GETDATE(),
 )
