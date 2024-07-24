@@ -1,0 +1,71 @@
+Databases:
+
+User
+    Username
+    First name
+    Last name
+    Email
+    Password
+    avatar (optional)
+NOTE: Avatar can be a file
+
+File
+    File name
+    MIME type
+    Key
+    Public or presigned URL to the file
+
+Movie (main)
+    Title
+    Description (Just a large text with detailed movie information)
+    Budget
+    Release date
+    Duration
+    Director (Additional)
+    CountryProduced (Additional)
+    Poster  (Additional, optional)
+    Genres  (Additional, multiple)
+    Characters (Additional, optional, Other Table)
+NOTES: 
+    ** Need to relate this table and the Person (Actor), to Know all the actors that are in one movie (Intermediate table)
+    ** Need to create a table for Directors (Intermediate table)
+    ** Need to create a table for Country
+    ** Need to create a table for Genres (Intermediate table)
+
+
+Character
+    Name
+    Description (Just a large text with detailed character information)
+    Role (Valid roles — leading, supporting, background)
+NOTES:
+    ** A character can be played by a person (or actor) (Other Table)
+    ** Might be played by unknown actors for whom we don’t have profiles
+    ** It’s also important to account for situations where an actor appears 
+    in a movie as part of a crowd or as a background character. In such cases, 
+    it may not be possible to create a separate character for these roles, 
+    but it would be nice to have a way to record the actor’s participation in the movie. 
+    Try to consider these points during the database design.
+
+
+Person
+    First Name
+    Last Name
+    Biography (Just a large text with detailed person biography)
+    Date of birth
+    Gender
+    HomeCoutry (Additional)
+    Photos (Additional, multiple) (On of the Photo must be Profile)
+NOTES: 
+    ** Need to relate this table and the movie, to knwo wich actor is in wich movie (Intermediate table)
+    ** Need to create a table for Country
+
+Favorites
+    MovieID
+    Likes
+NOTES: 
+    I need to know wiche user set the like to the movie
+
+
+
+GENERAL NOTES:
+    Need to create a table for Poster? or is this 
