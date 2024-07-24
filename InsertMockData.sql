@@ -28,7 +28,8 @@ VALUES
     ('brucewayne', 'Bruce', 'Wayne', 'bruce.wayne@example.com', 'password741', 5),
     ('clarkkent', 'Clark', 'Kent', 'clark.kent@example.com', 'password852', NULL),
     ('dianaprince', 'Diana', 'Prince', 'diana.prince@example.com', 'password963', 6),
-    ('steverogers', 'Steve', 'Rogers', 'steve.rogers@example.com', 'password159', NULL);
+    ('steverogers', 'Steve', 'Rogers', 'steve.rogers@example.com', 'password159', NULL),
+    ('mack', 'Mack', 'Wayne', 'mack.wayne@example.com', 'passwordfff123', 1);
 GO
 
 -- Insert Countries
@@ -62,11 +63,12 @@ VALUES
     ('Action Movie', 'An epic action movie with thrilling sequences.', 150000000.00, '2023-05-15', 135, 1, 1, 3),
     ('Comedy Movie', 'A hilarious comedy movie.', 50000000.00, '2023-06-20', 110, 3, 2, NULL),
     ('Horror Movie', 'A spine-chilling horror movie.', 20000000.00, '2023-07-30', 100, 4, 1, 2),
-    ('Sci-Fi Movie', 'A science fiction adventure.', 120000000.00, '2023-09-10', 140, 5, 3, NULL),
+    ('Sci-Fi Movie', 'A science fiction adventure.', 120000000.00, '2018-09-10', 140, 5, 3, NULL),
     ('Romantic Movie', 'A touching romantic movie.', 30000000.00, '2023-10-15', 115, 6, 1, 1),
     ('Thriller Movie', 'A gripping thriller movie.', 60000000.00, '2023-11-20', 130, 7, 2, NULL),
-    ('Documentary Movie', 'An informative documentary.', 10000000.00, '2023-12-25', 90, 8, 3, NULL),
-    ('Animated Movie', 'A fun animated movie for all ages.', 70000000.00, '2024-01-10', 95, 9, 1, 5);
+    ('Documentary Movie', 'An informative documentary.', 10000000.00, '2016-12-25', 90, 8, 3, NULL),
+    ('Animated Movie', 'A fun animated movie for all ages.', 70000000.00, '2024-01-10', 95, 9, 1, 5),
+    ('Anime Movie', 'A japanes movie.', 90000000.00, '2022-01-10', 140, 9, 1, 5);
 GO
 
 -- Insert Genres
@@ -95,7 +97,9 @@ VALUES
 	(7, 6),
 	(8, 7),
 	(9, 8),
-	(10, 9);
+	(10, 9),
+	(11, 1);
+
 GO
 
 -- Insert PersonPhotos

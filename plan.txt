@@ -68,4 +68,6 @@ NOTES:
 
 
 GENERAL NOTES:
-    Need to create a table for Poster? or is this 
+    Need to create a table for Poster? or is this is the File
+
+For Select with JSON, i could use SubQuery or JSON_QUERY
