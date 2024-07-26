@@ -2,18 +2,18 @@
 This Repo has the requeriments for the Lecture: "JavaScript: Database and SQL" of Binary Studio 2024
 
 # DLL Schema File
-DDL_statements
+DDL_statements.sql
 
 # Queries File
-- 1_Actors_with_movies_budget
-- 2_Movie_in_last_5_years_with_actors
-- 3_Users_Favorites_Movies
-- 4_Directors_with_avg_movie_budget
-- 5_Movie_detail_by_criteria
-- 6_Movie_detail_by_id_1
+- 1_Actors_with_movies_budget.sql
+- 2_Movie_in_last_5_years_with_actors.sql
+- 3_Users_Favorites_Movies.sql
+- 4_Directors_with_avg_movie_budget.sql
+- 5_Movie_detail_by_criteria.sql
+- 6_Movie_detail_by_id_1.sql
 
 # Insert Mock Data File
-InsertMockData
+InsertMockData.sql
 
 # LectureBSA Database Schema
 
