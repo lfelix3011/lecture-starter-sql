@@ -22,7 +22,7 @@ CREATE TABLE [User] (
 	[LastName] VARCHAR(30) NOT NULL,
 	[Email] VARCHAR(60) NOT NULL UNIQUE,
 	[Password] VARCHAR(200) NOT NULL,
-	[AvatarID] INT NULL CONSTRAINT FK_File_User FOREIGN KEY REFERENCES [File](ID),--Avatar Image,
+	[AvatarID] INT NULL CONSTRAINT FK_File_User FOREIGN KEY REFERENCES [File](ID),
 	[CreatedAt] DATETIME NOT NULL CONSTRAINT DF_User_CreatedAt DEFAULT GETDATE(),
 	[UpdatedAt] DATETIME NOT NULL CONSTRAINT DF_User_UpdatedAt DEFAULT GETDATE(),
 );
@@ -43,7 +43,6 @@ CREATE TABLE [Person] (
 	[Biography] VARCHAR(MAX) NOT NULL,
 	[BirthDate] DATETIME NOT NULL,
 	[Gender] VARCHAR(14) NOT NULL CONSTRAINT CK_Person_Gender CHECK ([Gender] IN ('Not known', 'Male', 'Female', 'Not applicable')),
-	--[Role] VARCHAR(8) NOT NULL ONSTRAINT CK_Role CHECK ([Role] IN ('Director', 'Actor')), -- DONT KNOW IF THIS IS NEED IT, can a director be an actor ???
 	[HomeCountryID] INT NOT NULL CONSTRAINT FK_Country_Person FOREIGN KEY REFERENCES [Country](ID),
 	[CreatedAt] DATETIME NOT NULL CONSTRAINT DF_Person_CreatedAt DEFAULT GETDATE(),
 	[UpdatedAt] DATETIME NOT NULL CONSTRAINT DF_Person_UpdatedAt DEFAULT GETDATE(),
@@ -57,6 +56,7 @@ CREATE TABLE [PersonPhoto] (
 	[PhotoID] INT NOT NULL  CONSTRAINT FK_File_Person FOREIGN KEY REFERENCES [File](ID),
 	[CreatedAt] DATETIME NOT NULL CONSTRAINT DF_PersonPhoto_CreatedAt DEFAULT GETDATE(),
 	[UpdatedAt] DATETIME NOT NULL CONSTRAINT DF_PersonPhoto_UpdatedAt DEFAULT GETDATE(),
+	CONSTRAINT UC_PersonPhoto_Profile UNIQUE (PersonID, IsProfile)
 )
 GO
 
@@ -69,7 +69,7 @@ CREATE TABLE [Movie] (
 	[Duration] INT NOT NULL,
 	[DirectorID] INT NOT NULL CONSTRAINT FK_Person_Movie FOREIGN KEY REFERENCES [Person](ID),
 	[CountryProducedID] INT NOT NULL CONSTRAINT FK_Country_Movie FOREIGN KEY REFERENCES [Country](ID),
-	[PosterID] INT NULL CONSTRAINT FK_File_Movie FOREIGN KEY REFERENCES [File](ID),--Poster Image
+	[PosterID] INT NULL CONSTRAINT FK_File_Movie FOREIGN KEY REFERENCES [File](ID),
 	[CreatedAt] DATETIME NOT NULL CONSTRAINT DF_Movie_CreatedAt DEFAULT GETDATE(),
 	[UpdatedAt] DATETIME NOT NULL CONSTRAINT DF_Movie_UpdatedAt DEFAULT GETDATE(),
 )
@@ -105,28 +105,17 @@ CREATE TABLE [Character] (
 	[ID] INT IDENTITY(1,1) CONSTRAINT PK_Character PRIMARY KEY,
 	[Name] VARCHAR(30) NOT NULL,
 	[Description] VARCHAR(MAX) NOT NULL,
-	[Role] VARCHAR(10) NOT NULL CONSTRAINT CK_Role CHECK ([Role] IN ('leading', 'supporting', 'background')), --(May i need to create ROLE for the MovieActor relation, to manage the actors that dosent have a character)
-	[MovieID] INT NOT NULL CONSTRAINT FK_Movie_Character FOREIGN KEY REFERENCES [Movie](ID), -- (IF ALL THE CHARACTER HAD AN ACTOR I WOULDNT NEED
-	--[ActorID] INT CONSTRAINT FK_Person_Character FOREIGN KEY REFERENCES [Person](ID), -- THIS TWO JOIN, I WOULD MAKE A JOIN WITH MovieActor, BUT THIS IS NOT POSIBLE)
+	[Role] VARCHAR(10) NOT NULL CONSTRAINT CK_Role CHECK ([Role] IN ('leading', 'supporting', 'background')),
+	[MovieID] INT NOT NULL CONSTRAINT FK_Movie_Character FOREIGN KEY REFERENCES [Movie](ID),
 	[CreatedAt] DATETIME NOT NULL CONSTRAINT DF_Character_CreatedAt DEFAULT GETDATE(),
 	[UpdatedAt] DATETIME NOT NULL CONSTRAINT DF_Character_UpdatedAt DEFAULT GETDATE(),
 )
 
 CREATE TABLE [MovieActor] (
-	--[ID] INT IDENTITY(1,1) CONSTRAINT PK_MovieActor PRIMARY KEY,
 	CONSTRAINT PK_MovieActor PRIMARY KEY([MovieID], [ActorID]),
 	[MovieID] INT NOT NULL CONSTRAINT FK_Movie_MovieActor FOREIGN KEY REFERENCES [Movie](ID),
 	[ActorID] INT NOT NULL CONSTRAINT FK_Person_MovieActor FOREIGN KEY REFERENCES [Person](ID),
-	[CharacterID] INT NULL CONSTRAINT FK_Character_MovieActor FOREIGN KEY REFERENCES [Character](ID), --(NEED TO ANALIZE IF THIS NEED IT OR SHOULD HAVE ActorID in Character Table)
+	[CharacterID] INT NULL CONSTRAINT FK_Character_MovieActor FOREIGN KEY REFERENCES [Character](ID),
 	[CreatedAt] DATETIME NOT NULL CONSTRAINT DF_MovieActor_CreatedAt DEFAULT GETDATE(),
 	[UpdatedAt] DATETIME NOT NULL CONSTRAINT DF_MovieActor_UpdatedAt DEFAULT GETDATE(),
 )
-
---CREATE TABLE [MovieCharacterActor] ( --CHARACTER CAN BE PLAY BY MULTIPLE ACTOR ???
---	CONSTRAINT PK_MovieCharacterActor PRIMARY KEY([MovieID], [CharacterID], [ActorID]),
---	[MovieID] INT NOT NULL CONSTRAINT FK_Movie_MovieCharacterActor FOREIGN KEY REFERENCES [Movie](ID),
---	[ActorID] INT NOT NULL CONSTRAINT FK_Person_MovieCharacterActor FOREIGN KEY REFERENCES [Person](ID),
---	[CharacterID] INT NOT NULL CONSTRAINT FK_Character_MovieCharacterActor FOREIGN KEY REFERENCES [Character](ID),
---	[CreatedAt] DATETIME NOT NULL CONSTRAINT DF_CreatedAt DEFAULT GETDATE(),
---	[UpdatedAt] DATETIME NOT NULL CONSTRAINT DF_UpdatedAt DEFAULT GETDATE(),
---)
