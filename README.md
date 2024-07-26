@@ -5,12 +5,12 @@ This Repo has the requeriments for the Lecture: "JavaScript: Database and SQL" o
 DDL_statements
 
 # Queries File
-1_Actors_with_movies_budget
-2_Movie_in_last_5_years_with_actors
-3_Users_Favorites_Movies
-4_Directors_with_avg_movie_budget
-5_Movie_detail_by_criteria
-6_Movie_detail_by_id_1
+- 1_Actors_with_movies_budget
+- 2_Movie_in_last_5_years_with_actors
+- 3_Users_Favorites_Movies
+- 4_Directors_with_avg_movie_budget
+- 5_Movie_detail_by_criteria
+- 6_Movie_detail_by_id_1
 
 # Insert Mock Data File
 InsertMockData
