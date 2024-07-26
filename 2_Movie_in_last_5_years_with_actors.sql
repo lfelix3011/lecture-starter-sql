@@ -1,0 +1,14 @@
+USE [LectureBSA]
+GO
+
+DECLARE @TODAY DATETIME = GETDATE();
+DECLARE @FIVE_YEARS_AGO DATETIME = DATEADD(YEAR, -5, @TODAY);
+
+SELECT 
+	M.ID,
+	M.Title,
+	COUNT(MA.[ActorID]) AS ActorCount
+FROM [Movie] M
+LEFT JOIN [MovieActor] MA ON MA.[MovieID] = M.ID
+WHERE M.[ReleaseDate] >= @FIVE_YEARS_AGO
+GROUP BY M.ID, M.Title
