@@ -9,6 +9,6 @@ SELECT
 	M.Title,
 	COUNT(MA.[ActorID]) AS ActorCount
 FROM [Movie] M
-JOIN [MovieActor] MA ON MA.[MovieID] = M.ID
+LEFT JOIN [MovieActor] MA ON MA.[MovieID] = M.ID
 WHERE M.[ReleaseDate] >= @FIVE_YEARS_AGO
 GROUP BY M.ID, M.Title

@@ -2,7 +2,7 @@ USE [LectureBSA]
 GO
 
 DECLARE @RELEASE_DATE_FROM DATETIME = '2022-01-01';
-DECLARE @HOUR_FROM DATETIME = 135;
+DECLARE @DURATION_MINUTES DATETIME = 135;
 
 SELECT 
 	M.ID,
@@ -38,4 +38,4 @@ LEFT JOIN [File] F ON F.[ID] = M.PosterID
 LEFT JOIN [MovieGenre] MG ON MG.MovieID = M.ID
 LEFT JOIN [Genre] G ON G.ID = MG.GenreID
 WHERE M.CountryProducedID = 1 AND M.ReleaseDate >= @RELEASE_DATE_FROM AND
-M.Duration > @HOUR_FROM AND G.[Name] IN ('Action', 'Drama');
+M.Duration > @DURATION_MINUTES AND G.[Name] IN ('Action', 'Drama');
