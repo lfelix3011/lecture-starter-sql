@@ -110,6 +110,7 @@ CREATE TABLE [Character] (
 	[CreatedAt] DATETIME NOT NULL CONSTRAINT DF_Character_CreatedAt DEFAULT GETDATE(),
 	[UpdatedAt] DATETIME NOT NULL CONSTRAINT DF_Character_UpdatedAt DEFAULT GETDATE(),
 )
+GO
 
 CREATE TABLE [MovieActor] (
 	CONSTRAINT PK_MovieActor PRIMARY KEY([MovieID], [ActorID]),
@@ -119,3 +120,158 @@ CREATE TABLE [MovieActor] (
 	[CreatedAt] DATETIME NOT NULL CONSTRAINT DF_MovieActor_CreatedAt DEFAULT GETDATE(),
 	[UpdatedAt] DATETIME NOT NULL CONSTRAINT DF_MovieActor_UpdatedAt DEFAULT GETDATE(),
 )
+
+
+-- File table
+CREATE TRIGGER trg_UpdateFile_Timespan
+ON [File]
+AFTER UPDATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE [File]
+    SET UpdatedAt = GETDATE()
+    FROM [File] f
+    INNER JOIN inserted i ON f.[ID] = i.[ID];
+END;
+GO
+
+-- User table
+CREATE TRIGGER trg_UpdateUser_Timespan
+ON [User]
+AFTER UPDATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE [User]
+    SET UpdatedAt = GETDATE()
+    FROM [User] u
+    INNER JOIN inserted i ON u.[ID] = i.[ID];
+END;
+GO
+
+-- Country table
+CREATE TRIGGER trg_UpdateCountry_Timespan
+ON [Country]
+AFTER UPDATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE [Country]
+    SET UpdatedAt = GETDATE()
+    FROM [Country] c
+    INNER JOIN inserted i ON c.[ID] = i.[ID];
+END;
+GO
+
+-- Person table
+CREATE TRIGGER trg_UpdatePerson_Timespan
+ON [Person]
+AFTER UPDATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE [Person]
+    SET UpdatedAt = GETDATE()
+    FROM [Person] p
+    INNER JOIN inserted i ON p.[ID] = i.[ID];
+END;
+GO
+
+-- Movie table
+CREATE TRIGGER trg_UpdateMovie_Timespan
+ON [Movie]
+AFTER UPDATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE [Movie]
+    SET UpdatedAt = GETDATE()
+    FROM [Movie] m
+    INNER JOIN inserted i ON m.[ID] = i.[ID];
+END;
+GO
+
+-- Genre table
+CREATE TRIGGER trg_UpdateGenre_Timespan
+ON [Genre]
+AFTER UPDATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE [Genre]
+    SET UpdatedAt = GETDATE()
+    FROM [Genre] g
+    INNER JOIN inserted i ON g.[ID] = i.[ID];
+END;
+GO
+
+-- MovieGenre table
+CREATE TRIGGER trg_UpdateMovieGenre_Timespan
+ON [MovieGenre]
+AFTER UPDATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE [MovieGenre]
+    SET UpdatedAt = GETDATE()
+    FROM [MovieGenre] mg
+    INNER JOIN inserted i ON mg.[MovieID] = i.[MovieID] AND mg.[GenreID] = i.[GenreID];
+END;
+GO
+
+-- PersonPhoto table
+CREATE TRIGGER trg_UpdatePersonPhoto_Timespan
+ON [PersonPhoto]
+AFTER UPDATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE [PersonPhoto]
+    SET UpdatedAt = GETDATE()
+    FROM [PersonPhoto] pp
+    INNER JOIN inserted i ON pp.[PersonID] = i.[PersonID] AND pp.[PhotoID] = i.[PhotoID];
+END;
+GO
+
+-- FavoriteMovies table
+CREATE TRIGGER trg_UpdateFavoriteMovies_Timespan
+ON [FavoriteMovies]
+AFTER UPDATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE [FavoriteMovies]
+    SET UpdatedAt = GETDATE()
+    FROM [FavoriteMovies] fm
+    INNER JOIN inserted i ON fm.[MovieID] = i.[MovieID] AND fm.[UserID] = i.[UserID];
+END;
+GO
+
+-- Character table
+CREATE TRIGGER trg_UpdateCharacter_Timespan
+ON [Character]
+AFTER UPDATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE [Character]
+    SET UpdatedAt = GETDATE()
+    FROM [Character] c
+    INNER JOIN inserted i ON c.[ID] = i.[ID];
+END;
+GO
+
+-- MovieActor
+CREATE TRIGGER trg_UpdateMovieActor_Timespan
+ON [MovieActor]
+AFTER UPDATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE [MovieActor]
+    SET UpdatedAt = GETDATE()
+    FROM [MovieActor] ma
+    INNER JOIN inserted i ON ma.[MovieID] = i.[MovieID] AND ma.[ActorID] = i.[ActorID];
+END;
+GO
