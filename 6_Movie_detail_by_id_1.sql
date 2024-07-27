@@ -7,16 +7,15 @@ SELECT
     M.ReleaseDate,
     M.Duration,
     M.[Description],
-    JSON_QUERY(
-        CONCAT(
-            '{"ID":', F.[ID], 
-            ',"FileName":"', F.[FileName], 
-            '","MimeType":"', F.[MimeType], 
-            '","Key":"', F.[Key], 
-            '","URL":"', F.[URL], 
-            '"}'
-        )
-    ) AS Poster,
+	(
+		SELECT 
+			F.[ID],
+			F.[FileName],
+			F.[MimeType],
+			F.[Key],
+			F.[URL]
+		FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
+	) AS  Poster,
 	(
 		SELECT 
 			D_P.[ID],
@@ -38,7 +37,6 @@ SELECT
 		A_P.[ID], 
 		A_P.[FirstName], 
 		A_P.[LastName], 
-
 			(
 				SELECT 
 					A_PP_F.[ID],
@@ -49,9 +47,8 @@ SELECT
 				 
 				FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
 			) AS Photo
-			FROM
-			  [MovieActor] MA
-		LEFT JOIN [Person] A_P ON A_P.[ID] = MA.ActorID
+			FROM [MovieActor] MA
+		JOIN [Person] A_P ON A_P.[ID] = MA.ActorID
 		LEFT JOIN [PersonPhoto] A_PP ON A_P.[ID] = A_PP.PersonID AND A_PP.IsProfile = 1
 		LEFT JOIN [File] A_PP_F ON A_PP_F.[ID] = A_PP.PhotoID
 		FOR JSON PATH

@@ -10,28 +10,26 @@ SELECT
 	M.ReleaseDate,
 	M.Duration,
 	M.[Description],
-	JSON_QUERY(
-         CONCAT(
-            '{"ID":', P.[ID], 
-            ',"FirstName":"', P.[FirstName], 
-            '","LastName":"', P.[LastName], 
-            '","Biography":"', P.[Biography], 
-            '","BirthDate":"', P.[BirthDate], 
-            '","Gender":"', P.[Gender], 
-            '","HomeCountryID":"', P.[HomeCountryID], 
-            '"}'
-        )
-    ) AS Director,
-	JSON_QUERY(
-        CONCAT(
-            '{"ID":', F.[ID], 
-            ',"FileName":"', F.[FileName], 
-            '","MimeType":"', F.[MimeType], 
-            '","Key":"', F.[Key], 
-            '","URL":"', F.[URL], 
-            '"}'
-        )
-    ) AS Poster
+	(
+		SELECT 
+			P.[ID],
+			P.[FirstName],
+			P.[LastName],
+			P.[Biography],
+			P.[BirthDate],
+			P.[Gender],
+			P.[HomeCountryID]
+		FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
+	) AS  Director,
+	(
+		SELECT 
+			F.[ID],
+			F.[FileName],
+			F.[MimeType],
+			F.[Key],
+			F.[URL]
+		FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
+	) AS  Poster
 FROM [Movie] M
 JOIN [Person] P ON P.[ID] = M.[DirectorID]
 LEFT JOIN [File] F ON F.[ID] = M.PosterID
